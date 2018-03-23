@@ -40,8 +40,8 @@ class Device(models.Model):
 
 #Tracks the request history of a device
 class RequestHistory(models.Model):
-    email = models.ForeignKey('Engineer', on_delete=models.SET_NULL)
-    serialnumber = models.ForeignKey('Device', on_delete=models.SET_NULL)
+    email = models.ForeignKey('Engineer', on_delete=models.SET_DEFAULT)
+    serialnumber = models.ForeignKey('Device', on_delete=models.SET_DEFAULT)
     date_requested = models.DateField()
     time_requested = models.TimeField()
     date_returned = models.DateField()
