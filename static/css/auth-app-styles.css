@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto|Dosis|Passion+One");
+* {
+  /*Smooth transition*/
+  transition: ease-out 1s; }
+
+body {
+  /*font: Helvetica, sans-serif;*/
+  background-image: url("../images/bglogin.jpeg");
+  background-size: cover; }
+
+.bg-form {
+  background: #033045;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(135deg, #0da8b6, #033045);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(135deg, #0da8b6, #033045);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(135deg, #0da8b6, #033045);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(135deg, #0da8b6, #033045);
+  /* Standard syntax */ }
+
+#login {
+  position: relative;
+  top: 100px;
+  padding: 25px; }
+  #login .form-control {
+    color: #fff;
+    background: transparent; }
+  #login .form-header {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px; }
+    #login .form-header span {
+      text-align: center;
+      /*Align text in center of div header*/
+      color: #eee;
+      font-family: "Passion One", cursive;
+      font-size: 28pt; }
+  #login ::-moz-placeholder, #login :-ms-input-placeholder, #login :-moz-placeholder, #login ::-webkit-input-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #fff;
+    opacity: 0.6; }
+
+@media screen and (min-width: 768px) and (max-width: 1092px) {
+  #login .form-header span {
+    width: 100%;
+    text-align: center;
+    margin-left: 0; } }
+@media screen and (max-width: 465px) {
+  #login .form-header span {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+    font-size: 22pt; } }
+
+/*# sourceMappingURL=main.css.map */
