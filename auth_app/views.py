@@ -33,30 +33,31 @@ def register(request):
                    'registered': registered})
 
 
-@login_required
+@login_required #You need to be logged in to be able to logout
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('auth_app:user_login'))
 
 
 def user_login(request):
 
     if request.method == 'POST':
-        username = request.method.get('username')
-        password = request.method.get('password')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password) #Django's built in authentication
 
         if user:
-            if user.is_active():
+            if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                # Redirect user once logged in
+                return HttpResponseRedirect(reverse('podrequest:index'))
             else:
                 return HttpResponse("ACCOUNT NOT ACTIVE")
         else:
             print("Someone tried to login and failed!")
             print("Username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login details supplied!")
+            return HttpResponse("Invalid login credentials!")
 
     else:
-        return render(request, 'basic_app/login.html', {})
+        return render(request, 'auth_app/login.html',{})

@@ -5,5 +5,5 @@ from podrequest import views
 app_name = 'podrequest'
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.DeviceListView.as_view(), name='index'),
 ]
