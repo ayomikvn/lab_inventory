@@ -1,4 +1,37 @@
-{% extends 'auth_app/base.html' %} 
-{% block body_block %}
-  
+{% extends 'auth_app/base.html' %} {% block body_block %}
+
+<div class="">
+    <h1>Login</h1>
+
+    <div class="">
+        <!--Takes care of form width -->
+        <div id="login" class="bg-form">
+            <div class="row form-header">
+                <span class="col-xs-offset-3 col-xs-6">Sign In</span>
+            </div>
+
+            <!--Begin Form-->
+            <form method="post" action="{% url 'auth_app:user_login' %}">
+                {%csrf_token %}
+                <div class="form-group row">
+                    <span class="col-xs-12">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </span>
+                </div>
+                <div class="form-group row">
+                    <span class="col-xs-12">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="col-xs-12">
+                        <button type="submit" class="btn btn-block">Log In</button>
+                    </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}

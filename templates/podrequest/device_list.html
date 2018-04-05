@@ -1,0 +1,15 @@
+{% extends 'podrequest/base.html' %} {% block body_block %}
+
+<h1 class="jumbotron">Device page</h1>
+<form method="post" action="">
+
+    <div class="list-group">
+    {% for device in device_list %}
+    <span class="list-group-item disabled">
+        <input type="checkbox" value={{device.serialnumber}} /> {{device.device_model}} {{device.x1_ip}}
+    </span>
+    {% endfor %}
+    </div>
+    <input type="submit" class="btn btn-success" value="Request" name="" />
+</form>
+{% endblock %}

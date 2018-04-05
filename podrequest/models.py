@@ -7,19 +7,19 @@ from auth_app.models import Engineer #This allows the use of the Engineer class
 
 #Devices found in the lab
 class Device(models.Model):
-    serialnumber = models.CharField(max_length=12, unique=True)
+    serialnumber = models.CharField(max_length=12, primary_key=True)
     device_model = models.CharField(max_length=12)
     device_type = models.CharField(max_length=24)
-    x0_ip = models.GenericIPAddressField(max_length=15)
+    x0_ip = models.GenericIPAddressField(max_length=15, null=True)
     x1_ip = models.GenericIPAddressField(max_length=15)
-    x1_subnetmask = models.GenericIPAddressField(max_length=15)
-    x1_gateway = models.GenericIPAddressField(max_length=15)
-    x3_ip = models.GenericIPAddressField(max_length=15)
-    x3_subnetmask = models.GenericIPAddressField(max_length=15)
-    x3_gateway = models.GenericIPAddressField(max_length=15)
+    x1_subnetmask = models.GenericIPAddressField(max_length=15, null=True)
+    x1_gateway = models.GenericIPAddressField(max_length=15, null=True)
+    x3_ip = models.GenericIPAddressField(max_length=15, null=True)
+    x3_subnetmask = models.GenericIPAddressField(max_length=15, null=True)
+    x3_gateway = models.GenericIPAddressField(max_length=15, null=True)
     pod_rdpip = models.GenericIPAddressField(max_length=15)
     podnumber = models.IntegerField()
-    firmware = models.CharField(max_length=12)
+    firmware = models.CharField(max_length=12, null=True)
     available = models.BooleanField()
 
     #Gives quick information about the device object

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from auth_app.models import Engineer
 
-
+#Form based on Engineer model
 class RegistrationForm(forms.ModelForm):
     
     password = forms.CharField(widget=forms.PasswordInput()) #Makes the user's password invisible or masked (thatis, *****)
@@ -12,7 +12,7 @@ class RegistrationForm(forms.ModelForm):
         model = User #Internal Django User class
         fields = ('username', 'first_name', 'last_name', 'password',)  #
 
-
+    #Used to validate the user input for registration
     def clean(self):
         all_clean_data = super().clean()
         password = all_clean_data['password']

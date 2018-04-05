@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from auth_app import views
-from podrequest import views
+
+#Since "views" is imported from two different apps
+import auth_app
+import podrequest
+
 
 urlpatterns = [
     url(r'^auth_app/', include('auth_app.urls')),
-    url(r'^podrequest/', include('podrequest.urls')),
+    url(r'^podrequest/', include('podrequest.urls', namespace='podrequest')),
     url(r'^admin/', admin.site.urls),
+    #Must specify which "views" is used to logout
+    url(r'^logout/$', auth_app.views.user_logout, name='logout'),
 ]

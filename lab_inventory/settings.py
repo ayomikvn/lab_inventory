@@ -135,3 +135,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+
+LOGIN_URL = '/auth_app/user_login'
