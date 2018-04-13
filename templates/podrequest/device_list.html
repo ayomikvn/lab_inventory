@@ -1,12 +1,13 @@
 {% extends 'podrequest/base.html' %} {% block body_block %}
 
 <h1 class="jumbotron">Device page</h1>
-<form method="post" action="">
+<form method="post" action="{% url 'podrequest:requestdevice' %}">
+     {% csrf_token %}
 
     <div class="list-group">
     {% for device in device_list %}
     <span class="list-group-item disabled">
-        <input type="checkbox" value={{device.serialnumber}} /> {{device.device_model}} {{device.x1_ip}}
+        <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> {{device.device_model}} {{device.x1_ip}}
     </span>
     {% endfor %}
     </div>
