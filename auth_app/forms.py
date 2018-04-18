@@ -10,7 +10,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta():
         model = User #Internal Django User class
-        fields = ('username', 'first_name', 'last_name', 'password',)  #
+        fields = ('username', 'email', 'first_name', 'last_name', 'password',)  #
 
     #Used to validate the user input for registration
     def clean(self):

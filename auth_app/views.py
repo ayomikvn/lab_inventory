@@ -45,7 +45,8 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password) #Django's built in authentication
+        # Django's built in authentication
+        user = authenticate(username=username, password=password)
 
         if user:
             if user.is_active:

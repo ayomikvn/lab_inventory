@@ -2,15 +2,32 @@
 
 <h1 class="jumbotron">Device page</h1>
 <form method="post" action="{% url 'podrequest:requestdevice' %}">
-     {% csrf_token %}
+    {% csrf_token %}
 
-    <div class="list-group">
-    {% for device in device_list %}
-    <span class="list-group-item disabled">
-        <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> {{device.device_model}} {{device.x1_ip}}
-    </span>
-    {% endfor %}
-    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>X1 IP</th>
+                <th>Available</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in device_list %}
+            <tr>
+                <td>{{device.device_model}}</td>
+                <td>{{device.x1_ip}}</td>
+                <td>{{device.available}}</td>
+                <td>
+                    {% if device.available %}
+                    <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> {% else %}
+                    <input type="checkbox" name='serialnumber' value={{device.serialnumber}} disabled/> {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <input type="submit" class="btn btn-success" value="Request" name="" />
 </form>
 {% endblock %}
