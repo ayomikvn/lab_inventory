@@ -10,6 +10,8 @@
                 <th>Date requested</th>
                 <th>Time Requested</th>
                 <th>Serialnumber</th>
+                <th>Date returned</th>
+                <th>Time returned</th>
                 <th>Select</th>
             </tr>
         </thead>
@@ -19,8 +21,10 @@
                 <td>{{history.date_requested}}</td>
                 <td>{{history.time_requested}}</td>
                 <td>{{history.serialnumber_id}}</td>
+                <td>{{history.date_returned}}</td>
+                <td>{{history.time_returned}}</td>
                 <td>
-                    <input type="checkbox" name='serialnumber' value={{history.serialnumber}} />
+                    <input type="checkbox" name='request_history_object' value={{history.id}} />
                 </td>
             </tr>
             {% endfor %}

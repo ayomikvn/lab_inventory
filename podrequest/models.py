@@ -37,5 +37,5 @@ class RequestHistory(models.Model):
     date_returned = models.DateField(null=True)
     time_returned = models.TimeField(null=True)
 
-    def __str__(self):
-        return "Engineer's email: "+self.email+", Serialnumber of device: "+self.serialnumber
+    #def __str__(self):
+      #  return "Engineer's username: "+self.username+", Serialnumber of device: "+self.serialnumber

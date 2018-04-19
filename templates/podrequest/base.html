@@ -21,7 +21,12 @@
                     <li>
                         <a href="{% url 'auth_app:register' %}">Register</a>
                     </li>
-
+                    <li>
+                        <a href="{% url 'podrequest:device_list' %}">Device</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'podrequest:returnDevice' %}">Request History</a>
+                    </li>
                     {% if user.is_authenticated %}
                     <li>
                         <a href="{% url 'logout' %}">Logout</a>

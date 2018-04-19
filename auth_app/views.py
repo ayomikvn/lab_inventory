@@ -52,7 +52,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 # Redirect user once logged in
-                return HttpResponseRedirect(reverse('podrequest:index'))
+                return HttpResponseRedirect(reverse('podrequest:device_list'))
             else:
                 return HttpResponse("ACCOUNT NOT ACTIVE")
         else:
