@@ -1,6 +1,6 @@
 {% extends 'podrequest/base.html' %} {% block body_block %}
 
-<h1 class="jumbotron">Device page</h1>
+<h2 class="jumbotron">Device page</h2>
 <form method="post" action="{% url 'podrequest:requestDevice' %}">
     {% csrf_token %}
 
@@ -31,5 +31,6 @@
         </tbody>
     </table>
     <input type="submit" class="btn btn-success" value="Request" name="" />
+    <input type="reset" class="btn btn-default" value="Clear" name="" />
 </form>
 {% endblock %}

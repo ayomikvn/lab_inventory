@@ -4,6 +4,7 @@
 <div class="">
     {% if registered %}
         <h1>Thank you for registering!</h1>
+        <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
     {% else %}
         <h1>Register here</h1>
 
@@ -12,6 +13,7 @@
             {{user_form.as_p}}
             <input type="submit" value="Register" name="" />
         </form>
+        <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
     {% endif %}
 </div>
  

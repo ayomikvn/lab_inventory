@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-{%load staticfiles%}
+<!DOCTYPE html> {%load staticfiles%}
 
 <html>
 
@@ -12,32 +11,30 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{% url 'admin:index'%}">Admin</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'auth_app:register' %}">Register</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'podrequest:device_list' %}">Device</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'podrequest:returnDevice' %}">Request History</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li>
-                        <a href="{% url 'logout' %}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="{% url 'auth_app:user_login' %}">Login</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+        <nav class="navbar navbar-expand-sm bg-light">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index'%}">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auth_app:register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'podrequest:device_list' %}">Device</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'podrequest:returnDevice' %}">Request History</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auth_app:user_login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
         </nav>
         {% block body_block %}
         <!--Anything outside of this will be inherited if you extend-->
