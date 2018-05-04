@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.db import models
 from django.contrib import admin
-from django.contrib.auth import get_user_model
-from auth_app.models import Engineer #This allows the use of the Engineer class
+#from auth_app.models import Engineer #This allows the use of the Engineer class
 
 # Create your models here.
 
@@ -30,7 +30,7 @@ class Device(models.Model):
 
 #Tracks the request history of a device
 class RequestHistory(models.Model):
-    username = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     serialnumber = models.ForeignKey(Device, on_delete=models.CASCADE)
     date_requested = models.DateField()
     time_requested = models.TimeField()

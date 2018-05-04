@@ -1,3 +1,4 @@
+"""
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -12,5 +13,5 @@ class Engineer(models.Model):
     def __str__(self):
         return "Engineer: "+self.engineer.first_name+" "+self.engineer.last_name    
 
-
+"""
 

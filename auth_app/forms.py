@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from auth_app.models import Engineer
+#from auth_app.models import Engineer
 
 #Form based on Engineer model
 class RegistrationForm(forms.ModelForm):

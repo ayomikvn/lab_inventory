@@ -1,7 +1,7 @@
 {% extends 'podrequest/base.html' %} {% block body_block %}
 
 <h2 class="jumbotron">Device page</h2>
-<form method="post" action="{% url 'podrequest:requestDevice' %}">
+<form method="post" action="{% url 'podrequest:request_device' %}">
     {% csrf_token %}
 
     <table class="table table-hover">
@@ -11,7 +11,7 @@
                 <th>Model</th>
                 <th>Firmware</th>
                 <th>X1 IP</th>
-                <th>Select</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -23,8 +23,15 @@
                 <td>{{device.x1_ip}}</td>
                 <td>
                     {% if device.available %}
-                    <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> {% else %}
-                    <input type="checkbox" name='serialnumber' value={{device.serialnumber}} disabled/> {% endif %}
+                        <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> 
+                    {% else %}
+                        {% for user in users_using_pod %}
+                            <!--Display the name of the person who requested the pod-->                        
+                            {% if device.serialnumber == user.serialnumber_id %}
+                            <span>{{ user.first_name }} {{ user.last_name }}</span>
+                            {% endif %}
+                         {% endfor %}
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
