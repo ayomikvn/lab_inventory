@@ -54,4 +54,13 @@ body {
     margin-left: 0;
     font-size: 22pt; } }
 
+  .form-info{
+    color: #eee;
+  }
+  .form-info a{
+    color: #ffcc00;
+  }
+  .form-info a:hover{
+    color: #eee;
+  }
 /*# sourceMappingURL=main.css.map */
