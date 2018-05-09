@@ -8,12 +8,14 @@
     {% else %}
         <h1>Register here</h1>
 
+        <div id="login" class="bg-form"></div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %} 
             {{user_form.as_p}}
             <input type="submit" value="Register" name="" />
         </form>
         <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
+        </div>
     {% endif %}
 </div>
  

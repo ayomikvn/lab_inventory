@@ -81,23 +81,44 @@ def request_device(request):
       
     return HttpResponseRedirect(reverse('podrequest:device_list'))
 
-
+#import pdb
 class HistoryListView(ListView):
     model = RequestHistory
     template_name = 'podrequest/history.html'
-    context_object_name = "request_history"
-"""
+    #context_object_name = "request_history"
+    
     def get_context_data(self, **kwargs):
         context = super(HistoryListView, self).get_context_data(**kwargs)
+
+        #Get the usernames and serialnumbers from database, where the device is in use
+        #Distinct is used because we don't need more than one instance of the values to filter in the 'for' loop in the history page
+        history_detail_ids = RequestHistory.objects.distinct().values('username_id', 'serialnumber_id')
+
+        #List of Dictionaries storing serialnumbers and usernames (firstname and lastname)
+        list_of_details = []
+        position = 0
+
+        for pod in history_detail_ids:
+            list_of_details += Device.objects.filter(
+                serialnumber=pod['serialnumber_id']).values('podnumber', 'device_model','serialnumber')
+            list_of_details[position]['user_id'] = pod['username_id']
+            position+=1
+
+        context['pod_details'] = list_of_details
+        #pdb.set_trace()
         
         return context
-"""
+
 
 
 #This method updates the availablity of a firewall in Device table and the datetime in the RequestHistory table
 def return_device(request):
     if request.method == "POST":
-        request_history_id_list = get_primary_key_list(request)
+        try:
+            request_history_id_list = []
+            request_history_id_list = get_primary_key_list(request)
+        except:
+            print("Empty REQUEST!!")    
         current_user = request.user
 
         if current_user.is_authenticated():

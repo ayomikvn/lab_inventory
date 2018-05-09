@@ -7,20 +7,29 @@
     <table class="table table-hover">
         <thead>
             <tr>
+                <th>Pod number</th>
+                <th>Model</th>
                 <th>Date requested</th>
                 <th>Time Requested</th>
                 <th>Serialnumber</th>
                 <th>Date returned</th>
                 <th>Time returned</th>
-                <th>Select</th>
+                <th>Satus</th>
             </tr>
         </thead>
         <tbody>
-            {% for history in request_history %}
-             {% if user.is_authenticated %}
-             <!--Only display Pods this user requested-->
+            {% for history in requesthistory_list %} {% if user.is_authenticated %}
+            <!--Only display Pods this user requested-->
             {% if history.username_id == user.id %}
             <tr>
+                {% for device in pod_details %}
+                    <!--Display the pod number and model of the requested pod-->
+                    <!--Pod_details contains pods requested by different users, so the second part of the 'if' condition is necessary-->
+                    {% if history.serialnumber_id == device.serialnumber and device.user_id == history.username_id %}
+                    <td>{{ device.podnumber }}</td>
+                    <td>{{ device.device_model }}</td>
+                    {% endif %} 
+                {% endfor %}
                 <td>{{history.date_requested}}</td>
                 <td>{{history.time_requested}}</td>
                 <td>{{history.serialnumber_id}}</td>
@@ -28,15 +37,12 @@
                 <td>{{history.time_returned}}</td>
                 <td>
                     {% if not history.date_returned %}
-                    <input type="checkbox" name='request_history_object' value={{history.id}} />
-                    {% else %}
-                        <span>Returned</span>
+                    <input type="checkbox" name='request_history_object' value={{history.id}} /> {% else %}
+                    <span>Returned</span>
                     {% endif %}
                 </td>
             </tr>
-            {% endif %}
-             {% endif %}
-            {% endfor %}
+            {% endif %} {% endif %} {% endfor %}
         </tbody>
     </table>
     <input type="submit" class="btn btn-success" value="Return" name="" />
