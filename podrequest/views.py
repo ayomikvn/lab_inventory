@@ -81,12 +81,11 @@ def request_device(request):
       
     return HttpResponseRedirect(reverse('podrequest:device_list'))
 
-#import pdb
+
 class HistoryListView(ListView):
     model = RequestHistory
     template_name = 'podrequest/history.html'
-    #context_object_name = "request_history"
-    
+
     def get_context_data(self, **kwargs):
         context = super(HistoryListView, self).get_context_data(**kwargs)
 
@@ -105,7 +104,6 @@ class HistoryListView(ListView):
             position+=1
 
         context['pod_details'] = list_of_details
-        #pdb.set_trace()
         
         return context
 

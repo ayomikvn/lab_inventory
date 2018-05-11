@@ -1,22 +1,41 @@
-{% extends 'auth_app/base.html' %} 
-{% block body_block %} 
-  
+{% extends 'auth_app/base.html' %} {% block body_block %}
+
 <div class="">
     {% if registered %}
-        <h1>Thank you for registering!</h1>
-        <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
+    <h1>Thank you for registering!</h1>
+    <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
     {% else %}
-        <h1>Register here</h1>
-
-        <div id="login" class="bg-form"></div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %} 
-            {{user_form.as_p}}
-            <input type="submit" value="Register" name="" />
-        </form>
-        <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
+    <div class="col-xs-10 mx-auto col-sm-8 col-md-5">
+        <!--Takes care of form width -->
+        <div id="login" class="bg-form">
+            <div class="row form-header">
+                <span class="mx-auto col-xs-6">Sign Up</span>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {%csrf_token %}
+                <!--Begin Form-->
+                {% for field in user_form %}
+                <div class="form-group">
+                    <span class="col-xs-12">
+                        {{ field.errors }} {{ field }} 
+                        <!--{% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}-->
+                    </span>
+                </div>
+                {% endfor %}
+                <div class="">
+                    <p class="col-xs-12">
+                        <button type="submit" class="btn btn-block">Register</button>
+                    </p>
+                    <p class="form-info">
+                        Already have an account? <a href="{% url 'auth_app:user_login' %}">Login to continue</a>
+                    </p>
+                </div>
+            </form>
         </div>
+    </div>
     {% endif %}
 </div>
- 
+
 {% endblock %}

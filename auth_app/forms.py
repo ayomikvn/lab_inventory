@@ -5,12 +5,29 @@ from django.contrib.auth.models import User
 #Form based on Engineer model
 class RegistrationForm(forms.ModelForm):
     
-    password = forms.CharField(widget=forms.PasswordInput()) #Makes the user's password invisible or masked (thatis, *****)
-    verify_password = forms.CharField(label='Confirm password', widget=forms.PasswordInput())
+    # Makes the user's password invisible or masked (thatis, *****)
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder':'Password'}))
+    verify_password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
 
     class Meta():
         model = User #Internal Django User class
-        fields = ('username', 'email', 'first_name', 'last_name', 'password',)  #
+        fields = ('username', 'email', 'first_name', 'last_name', 'password',)  
+
+
+    #Styling of SignUp form    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Username'})
+        self.fields['email'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Email'})
+        self.fields['first_name'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'First Name'})
+        self.fields['last_name'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Last Name'})
+
 
     #Used to validate the user input for registration
     def clean(self):

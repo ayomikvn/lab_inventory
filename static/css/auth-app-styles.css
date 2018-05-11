@@ -63,4 +63,17 @@ body {
   .form-info a:hover{
     color: #eee;
   }
+
+#login ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ccc;
+}
+#login ::-moz-placeholder { /* Firefox 19+ */
+  color: #ccc;
+}
+#login :-ms-input-placeholder { /* IE 10+ */
+  color: #ccc;
+}
+#login :-moz-placeholder { /* Firefox 18- */
+  color: #ccc;
+}
 /*# sourceMappingURL=main.css.map */
