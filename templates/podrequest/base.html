@@ -12,6 +12,12 @@
 <body>
     <div class="container">
         <nav class="navbar navbar-expand-sm bg-light">
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'admin:index'%}">Admin</a>
@@ -25,12 +31,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'podrequest:return_device' %}">Request History</a>
                 </li>
+             </ul>
+
+             <!--Right-aligned menu-->
+             <ul class="nav ml-auto">
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <span>Logged in as {{ user.get_full_name }}</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" href="#">{{ user.get_full_name }}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -38,11 +49,31 @@
                 </li>
                 {% endif %}
             </ul>
+            </div>
         </nav>
+        <div id="information">
         {% block body_block %}
         <!--Anything outside of this will be inherited if you extend-->
         {% endblock %}
+        </div>
     </div>
 </body>
-
+<script type="text/javascript">
+    var tbody = $("tbody")
+        $.ajax({
+            method: "GET",
+            url: "{% url 'podrequest:device_list' %}",
+            success: function (data) {
+                carriers = data.historical_carriers
+                for (var i = 0; i < carriers.length; i++) {
+                    html = '<tr><td><a href="#">' + carriers[i] + '</a></td></tr>';
+                    tbody.append(html)
+                }
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+            }
+        });
+</script>
 </html>

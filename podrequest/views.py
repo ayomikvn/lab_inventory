@@ -31,7 +31,6 @@ def get_primary_key_list(web_request):
     return requested_items[3]
 
 
-
 #Display the devices (and users using them if applicable) as a list in the browser
 class DeviceListView(ListView):
     model = Device
