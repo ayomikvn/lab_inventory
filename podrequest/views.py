@@ -3,6 +3,8 @@ from django.shortcuts import render
 from podrequest.models import Device, RequestHistory
 from django.views.generic import View, ListView, DetailView, UpdateView
 
+#Use this to return Json instead of HTTP response
+from django.http import JsonResponse
 #from auth_app.models import Engineer
 
 #Authentication requirements
@@ -13,11 +15,6 @@ from django.contrib.auth.decorators import login_required
 #Time utilities
 import datetime
 from django.utils.timezone import utc
-
-# Create your views here.
-def index(request):
-    return render(request, 'podrequest/index.html')
-
 
 
 #Get the model primary key (e.g. serialnumber, request history_id) and csrf token from the POST request and return a list of primary keys
@@ -36,6 +33,17 @@ class DeviceListView(ListView):
     model = Device
     template_name = 'podrequest/device_list.html'
     #paginate_by =10
+
+    
+    #AJAX request comes to this function
+    """
+    def get(self, request, *args, **kwargs):
+        xhr = request.GET.get('xhr')
+        if xhr:
+            print("HIT XHR!!!")
+            return JsonResponse(self.get_context_data())
+        else:
+            return super().get(request,*args, **kwargs)"""
 
     def get_context_data(self, **kwargs):
         context = super(DeviceListView, self).get_context_data(**kwargs)
