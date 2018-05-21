@@ -22,6 +22,7 @@ import podrequest
 
 
 urlpatterns = [
+    url(r'', include('auth_app.urls')),
     url(r'^auth_app/', include('auth_app.urls')),
     url(r'^podrequest/', include('podrequest.urls', namespace='podrequest')),
     url(r'^admin/', admin.site.urls),

@@ -59,16 +59,12 @@
     </div>
 </body>
 <script type="text/javascript">
-    var tbody = $("tbody")
         $.ajax({
             method: "GET",
-            url: "{% url 'podrequest:device_list' %}",
-            success: function (data) {
-                carriers = data.historical_carriers
-                for (var i = 0; i < carriers.length; i++) {
-                    html = '<tr><td><a href="#">' + carriers[i] + '</a></td></tr>';
-                    tbody.append(html)
-                }
+            url: "/podrequest/?xhr",
+            dataType:"json",
+            success: function (context_data) {
+                console.log("CONTEXT!!!"+context_data.users_using_pod)
             },
             error: function (error_data) {
                 console.log("error")
