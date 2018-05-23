@@ -32,7 +32,7 @@ def get_primary_key_list(web_request):
 class DeviceListView(ListView):
     model = Device
     template_name = 'podrequest/device_list.html'
-    #paginate_by =10
+    paginate_by =15
 
     
     #AJAX request comes to this function
@@ -62,7 +62,13 @@ class DeviceListView(ListView):
             position += 1
         
         context['users_using_pod'] = list_of_details
-        
+        """
+        xhr = request.GET.get('xhr')
+        if xhr:
+            print("HIT XHR!!!")
+            return JsonResponse(context)
+        """    
+
         return context
 
 
@@ -92,6 +98,7 @@ def request_device(request):
 class HistoryListView(ListView):
     model = RequestHistory
     template_name = 'podrequest/history.html'
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         context = super(HistoryListView, self).get_context_data(**kwargs)
