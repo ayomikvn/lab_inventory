@@ -11,6 +11,7 @@
                 <th>Model</th>
                 <th>Firmware</th>
                 <th>X1 IP</th>
+                <th>Pod IP</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td>{{device.device_model}}</td>
                 <td>{{device.firmware}}</td>
                 <td>{{device.x1_ip}}</td>
+                <td>{{device.pod_rdpip}}</td>
                 <td>
                     {% if device.available %}
                         <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> 
