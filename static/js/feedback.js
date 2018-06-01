@@ -1,10 +1,17 @@
+/**
+ *This script submits the user's login credentials and gives feedback if login fails
+ If login is successful, user is redirected to Device page 
+ */
+
 $(document).ready(function () {
-    $('#feedback').hide()
+    $('#feedback').hide() //Hide the 'message' div when the page loads
 });
 
 
-//For getting CSRF token
-function getCookie(name) {
+/*For retrieving CSRF token
+  https://docs.djangoproject.com/en/1.11/ref/csrf/
+*/
+function get_cookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
@@ -20,49 +27,58 @@ function getCookie(name) {
     return cookieValue;
 }
 
-//For doing AJAX post
+// Get current URL
+function get_current_url() {
+    var current_url = '';
+    if (window.location.href == '/') {
+        current_url = '/auth_app/user_login';
+    } else if (window.location.href == '/register/') {
+        current_url = '/register/';
+    }
+    return current_url;
+}
 
-//When submit is clicked
-$(document).on('submit', '#login', function (e) {
+/*================For AJAX post=================*/
 
-    //Prevent default submit. Important for AJAX post.
-    e.preventDefault();
+
+// When login form is submitted
+$(document).on('submit', '#login', function (event) {
+
+    //Prevent default submit behavior
+    event.preventDefault();
 
     //Prepare csrf token
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = get_cookie('csrftoken');
 
-
-    //Collect data from fields
+    //Collect data from form fields
     var username = $('#username').val();
     var password = $('#password').val();
 
-    //This is the Ajax post.Observe carefully. It is nothing but details of where_to_post,what_to_post
-    //Send data  
+
+    //Send data to View
     $.ajax({
-        url: '/auth_app/user_login/', // the endpoint,commonly same url
-        type: "POST", // http method
+        url: get_current_url(),
+        type: "POST",
         data: {
             csrfmiddlewaretoken: csrftoken,
             username: username,
             password: password,
-        }, // data sent with the post request
+        }, // data sent with the POST request
 
-        // handle a successful response
+        //Successful response
         success: function (responseData) {
-            console.log(responseData); // another sanity check
             //On success show the data posted to server as a message
             if (responseData['results'] == 'failed') {
                 $('#feedback').html(responseData['message']).show();
             } else if (responseData['results'] == 'success') {
-                location.href = "/podrequest/"
+                location.href = "/podrequest/";
             }
         },
 
-        // handle a non-successful response
+        //Non-successful response
         error: function (data) {
-            console.log(data); // another sanity check
-            //On success show the data posted to server as a message
-            $('#feedback').html(data['message']).show();
+            //On failed response, give user a message
+            alert("Something went wrong.");
         }
     });
 });

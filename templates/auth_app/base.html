@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://github.com/FortAwesome/Font-Awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="{% static "css/auth-app-styles.css" %}" type="text/css" />
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" />
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    
 </head>
 
 <body class="container-fluid">
@@ -20,5 +21,13 @@
     </div>
     
 </body>
+    <!--Script for Login feedback-->
     <script src="{% static "js/feedback.js" %}"></script>
+    
+    <!--If registration is successful, display success message-->
+    {% if registered %}
+        <script text="text/javascript">
+            $('#myModal').modal('show'); 
+        </script>
+    {% endif %}
 </html>

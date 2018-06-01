@@ -20,35 +20,35 @@ body {
   background: linear-gradient(135deg, #0da8b6, #033045);
   /* Standard syntax */ }
 
-#login {
+#auth_form {
   position: relative;
   top: 200px;
   padding: 25px; }
-  #login .form-control {
+  #auth_form .form-control {
     color: #fff;
     background: transparent; }
-  #login .form-header {
+  #auth_form .form-header {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 30px; }
-    #login .form-header span {
+    #auth_form .form-header span {
       text-align: center;
       /*Align text in center of div header*/
       color: #eee;
       font-family: "Passion One", cursive;
       font-size: 28pt; }
-  #login ::-moz-placeholder, #login :-ms-input-placeholder, #login :-moz-placeholder, #login ::-webkit-input-placeholder {
+  #auth_form ::-moz-placeholder, #auth_form :-ms-input-placeholder, #auth_form :-moz-placeholder, #auth_form ::-webkit-input-placeholder {
     /* Mozilla Firefox 19+ */
     color: #fff;
     opacity: 0.6; }
 
 @media screen and (min-width: 768px) and (max-width: 1092px) {
-  #login .form-header span {
+  #auth_form .form-header span {
     width: 100%;
     text-align: center;
     margin-left: 0; } }
 @media screen and (max-width: 465px) {
-  #login .form-header span {
+  #auth_form .form-header span {
     width: 100%;
     text-align: center;
     margin-left: 0;
@@ -64,16 +64,16 @@ body {
     color: #eee;
   }
 
-#login ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+#auth_form ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #ccc;
 }
-#login ::-moz-placeholder { /* Firefox 19+ */
+#auth_form ::-moz-placeholder { /* Firefox 19+ */
   color: #ccc;
 }
-#login :-ms-input-placeholder { /* IE 10+ */
+#auth_form :-ms-input-placeholder { /* IE 10+ */
   color: #ccc;
 }
-#login :-moz-placeholder { /* Firefox 18- */
+#auth_form :-moz-placeholder { /* Firefox 18- */
   color: #ccc;
 }
 /*# sourceMappingURL=main.css.map */
