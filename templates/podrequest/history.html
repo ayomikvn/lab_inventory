@@ -7,10 +7,10 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Pod number</th>
-                <th>Model</th>
                 <th>Date requested</th>
                 <th>Time Requested</th>
+                <th>Model</th>
+                <th>Pod number</th>
                 <th>Serialnumber</th>
                 <th>Date returned</th>
                 <th>Time returned</th>
@@ -22,16 +22,16 @@
             <!--Only display Pods this user requested-->
             {% if history.username_id == user.id %}
             <tr>
+                <td>{{history.date_requested}}</td>
+                <td>{{history.time_requested}}</td>
                 {% for device in pod_details %}
                     <!--Display the pod number and model of the requested pod-->
                     <!--Pod_details contains pods requested by different users, so the second part of the 'if' condition is necessary-->
                     {% if history.serialnumber_id == device.serialnumber and device.user_id == history.username_id %}
-                    <td>{{ device.podnumber }}</td>
                     <td>{{ device.device_model }}</td>
+                    <td>{{ device.podnumber }}</td>
                     {% endif %} 
                 {% endfor %}
-                <td>{{history.date_requested}}</td>
-                <td>{{history.time_requested}}</td>
                 <td>{{history.serialnumber_id}}</td>
                 <td>{{history.date_returned}}</td>
                 <td>{{history.time_returned}}</td>

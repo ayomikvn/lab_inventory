@@ -33,6 +33,8 @@ class DeviceListView(ListView):
     model = Device
     template_name = 'podrequest/device_list.html'
     paginate_by =15
+    #Order result set by Podnumber in ascending order
+    queryset = Device.objects.order_by('podnumber')
 
     def get_context_data(self, **kwargs):
         context = super(DeviceListView, self).get_context_data(**kwargs)
@@ -82,6 +84,8 @@ class HistoryListView(ListView):
     model = RequestHistory
     template_name = 'podrequest/history.html'
     paginate_by = 15
+    #Order result set by date_requested, then time_requested, in descending order
+    queryset = RequestHistory.objects.order_by('-date_requested','-time_requested')
 
     def get_context_data(self, **kwargs):
         context = super(HistoryListView, self).get_context_data(**kwargs)
