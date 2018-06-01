@@ -34,17 +34,6 @@ class DeviceListView(ListView):
     template_name = 'podrequest/device_list.html'
     paginate_by =15
 
-    
-    #AJAX request comes to this function
-    """
-    def get(self, request, *args, **kwargs):
-        xhr = request.GET.get('xhr')
-        if xhr:
-            print("HIT XHR!!!")
-            return JsonResponse(self.get_context_data())
-        else:
-            return super().get(request,*args, **kwargs)"""
-
     def get_context_data(self, **kwargs):
         context = super(DeviceListView, self).get_context_data(**kwargs)
     
@@ -62,12 +51,6 @@ class DeviceListView(ListView):
             position += 1
         
         context['users_using_pod'] = list_of_details
-        """
-        xhr = request.GET.get('xhr')
-        if xhr:
-            print("HIT XHR!!!")
-            return JsonResponse(context)
-        """    
 
         return context
 

@@ -58,18 +58,4 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
-        $.ajax({
-            method: "GET",
-            url: "/podrequest/?xhr",
-            dataType:"json",
-            success: function (context_data) {
-                console.log("CONTEXT!!!"+context_data.users_using_pod)
-            },
-            error: function (error_data) {
-                console.log("error")
-                console.log(error_data)
-            }
-        });
-</script>
 </html>
