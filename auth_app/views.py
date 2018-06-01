@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from auth_app.forms import RegistrationForm
+from django.http import JsonResponse #JSON response
 
 #Authentication requirements
 from django.contrib.auth import authenticate, login, logout
@@ -32,7 +33,7 @@ def register(request):
                    'registered': registered})
 
 
-@login_required #You need to be logged in to be able to logout
+@login_required  # You need to be logged in to be able to logout
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('auth_app:user_login'))
@@ -51,13 +52,18 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 # Redirect user once logged in
-                return HttpResponseRedirect(reverse('podrequest:device_list'))
+                responseData = {
+                    'results': 'success',
+                }
+                return JsonResponse(responseData)
             else:
                 return HttpResponse("ACCOUNT NOT ACTIVE")
         else:
-            print("Someone tried to login and failed!")
-            print("Username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login credentials!")
+            responseData = {
+                'message': 'Username or Password is not correct. Try again.',
+                'results': 'failed',
+            }
+            return JsonResponse(responseData)
 
     else:
-        return render(request, 'auth_app/login.html',{})
+        return render(request, 'auth_app/login.html', {})
