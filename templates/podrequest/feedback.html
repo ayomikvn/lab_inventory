@@ -1,0 +1,26 @@
+<!--Gives users feedback about their action-->
+
+{% if messages %}
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} modal-title" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button href="{% url 'auth_app:user_login' %}" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
