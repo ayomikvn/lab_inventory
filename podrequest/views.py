@@ -5,7 +5,6 @@ from django.views.generic import View, ListView, DetailView, UpdateView
 
 #Use this to return Json instead of HTTP response
 from django.http import JsonResponse
-#from auth_app.models import Engineer
 
 #Authentication requirements
 from django.http import HttpResponseRedirect, HttpResponse
@@ -17,17 +16,14 @@ import datetime
 from django.utils.timezone import utc
 
 
-#Get the model primary key (e.g. serialnumber, request history_id) and csrf token from the POST request and return a list of primary keys
-def get_primary_key_list(web_request):
-    #Store request items in a list
-    requested_items = []
-    for key, values in web_request.POST.lists():
-        requested_items += (key, values)
-
-    #Serialnumbers are in the fourth position of the 'pod_request_items' list
-    return requested_items[3]
+from django.contrib import messages
 
 
+"""
+    ========================================
+    Class Based Views for Device and History
+    ========================================
+"""
 #Display the devices (and users using them if applicable) as a list in the browser
 class DeviceListView(ListView):
     model = Device
@@ -57,10 +53,56 @@ class DeviceListView(ListView):
         return context
 
 
+
+class HistoryListView(ListView):
+    model = RequestHistory
+    template_name = 'podrequest/history.html'
+    paginate_by = 15
+    #Order result set by date_requested, then time_requested, in descending order
+    queryset = RequestHistory.objects.order_by(
+        '-date_requested', '-time_requested')
+
+    def get_context_data(self, **kwargs):
+        context = super(HistoryListView, self).get_context_data(**kwargs)
+
+        #Get the usernames and serialnumbers from database, where the device is in use
+        #Distinct is used because we don't need more than one instance of the values to filter in the 'for' loop in the history page
+        history_detail_ids = RequestHistory.objects.distinct().values(
+            'username_id', 'serialnumber_id')
+
+        #List of Dictionaries storing serialnumbers and usernames (firstname and lastname)
+        list_of_details = []
+        position = 0
+
+        for pod in history_detail_ids:
+            list_of_details += Device.objects.filter(
+                serialnumber=pod['serialnumber_id']).values('podnumber', 'device_model', 'serialnumber')
+            list_of_details[position]['user_id'] = pod['username_id']
+            position += 1
+
+        context['pod_details'] = list_of_details
+
+        return context
+
+
+
+"""
+    =================================================
+    Custom Views for requesting and returning Devices
+    =================================================
+"""
+
 #This method uses the HTML name parameters to manipulate the model in the HTTP request
 def request_device(request):
+
     if request.method == "POST":
-        serialnumber_list = get_primary_key_list(request)
+        try:
+            serialnumber_list = get_primary_key_list(request)
+        except:
+            messages.error(
+                request, 'You did not select any Pods.')
+            return HttpResponseRedirect(request.path)
+
         current_user = request.user
 
         if current_user.is_authenticated():
@@ -70,43 +112,21 @@ def request_device(request):
             
             #Set the availablity of each serialnumber to False, that is, device is in use
             for serialnumber in serialnumber_list:
-                Device.objects.filter(serialnumber=serialnumber).update(available=False)
-                RequestHistory.objects.create(date_requested=date_now,time_requested=time_now, serialnumber_id=serialnumber, username_id=current_user.id)
+                if is_device_available(serialnumber):
+                    Device.objects.filter(
+                        serialnumber=serialnumber).update(available=False)
+                    RequestHistory.objects.create(
+                        date_requested=date_now, time_requested=time_now, serialnumber_id=serialnumber, username_id=current_user.id)
+
+                else:
+                    messages.error(request, 'One or more of the Pods you requested is already in use.')
+                    return HttpResponseRedirect(request.path)
 
         else:       
             # Do something for anonymous users.
             return HttpResponse("You're not logged in! Please login to continue.")
       
     return HttpResponseRedirect(reverse('podrequest:device_list'))
-
-
-class HistoryListView(ListView):
-    model = RequestHistory
-    template_name = 'podrequest/history.html'
-    paginate_by = 15
-    #Order result set by date_requested, then time_requested, in descending order
-    queryset = RequestHistory.objects.order_by('-date_requested','-time_requested')
-
-    def get_context_data(self, **kwargs):
-        context = super(HistoryListView, self).get_context_data(**kwargs)
-
-        #Get the usernames and serialnumbers from database, where the device is in use
-        #Distinct is used because we don't need more than one instance of the values to filter in the 'for' loop in the history page
-        history_detail_ids = RequestHistory.objects.distinct().values('username_id', 'serialnumber_id')
-
-        #List of Dictionaries storing serialnumbers and usernames (firstname and lastname)
-        list_of_details = []
-        position = 0
-
-        for pod in history_detail_ids:
-            list_of_details += Device.objects.filter(
-                serialnumber=pod['serialnumber_id']).values('podnumber', 'device_model','serialnumber')
-            list_of_details[position]['user_id'] = pod['username_id']
-            position+=1
-
-        context['pod_details'] = list_of_details
-        
-        return context
 
 
 
@@ -117,7 +137,10 @@ def return_device(request):
             request_history_id_list = []
             request_history_id_list = get_primary_key_list(request)
         except:
-            print("Empty REQUEST!!")    
+            messages.error(
+                request, 'You did not select any Pods.')
+            return HttpResponseRedirect(request.path)
+
         current_user = request.user
 
         if current_user.is_authenticated():
@@ -139,3 +162,29 @@ def return_device(request):
             return HttpResponse("You're not logged in! Please login to continue.")
     
     return HttpResponseRedirect(reverse('podrequest:requesthistory'))
+
+
+
+
+
+"""
+================================================================
+Custom Methods
+================================================================
+"""
+#Get the model primary key (e.g. serialnumber, request history_id) and csrf token from the POST request and return a list of primary keys
+def get_primary_key_list(web_request):
+    #Store request items in a list
+    requested_items = []
+    for key, values in web_request.POST.lists():
+        requested_items += (key, values)
+
+    #Serialnumbers are in the fourth position of the 'pod_request_items' list
+    return requested_items[3]
+
+
+#Checks to see if a Device is available
+def is_device_available(serial):
+    get_query = Device.objects.filter(serialnumber=serial).values('available')
+    return get_query[0]['available']
+

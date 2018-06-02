@@ -1,4 +1,6 @@
-{% extends 'podrequest/base.html' %} {% block body_block %}
+{% extends 'podrequest/base.html' %} {% block body_block %} 
+
+{% include 'podrequest/feedback.html' %}
 
 <h2 class="jumbotron">Device page</h2>
 <form method="post" action="{% url 'podrequest:request_device' %}">
@@ -25,22 +27,20 @@
                 <td>{{device.pod_rdpip}}</td>
                 <td>
                     {% if device.available %}
-                        <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> 
-                    {% else %}
-                        {% for user in users_using_pod %}
-                            <!--Display the name of the person who requested the pod-->                        
-                            {% if device.serialnumber == user.serialnumber_id %}
-                            <span>{{ user.first_name }} {{ user.last_name }}</span>
-                            {% endif %}
-                         {% endfor %}
-                    {% endif %}
+                    <input type="checkbox" name='serialnumber' value={{device.serialnumber}} /> {% else %} {% for user in users_using_pod %}
+                    <!--Display the name of the person who requested the pod-->
+                    {% if device.serialnumber == user.serialnumber_id %}
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    {% endif %} {% endfor %} {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <p class="col-sm-4 mx-auto">
+        <input type="submit" class="btn btn-success col-sm-5" value="Request" name="" />
+        <input type="reset" class="btn btn-default col-sm-5 float-right" value="Clear" name="" />
+    </p>
     {% include 'podrequest/paginator.html' %}
-    <input type="submit" class="btn btn-success" value="Request" name="" />
-    <input type="reset" class="btn btn-default" value="Clear" name="" />
 </form>
 {% endblock %}
