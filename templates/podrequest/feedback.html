@@ -2,22 +2,20 @@
 
 {% if messages %}
 <!-- The Modal -->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <ul class="messages">
                     {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }} modal-title" {% endif %}>{{ message }}</li>
+                    <div {% if message.tags == "error" %} class="alert-danger modal-title alert col-sm-12" {% endif %}class="alert-{{ message.tags }} modal-title alert col-sm-12">{{ message }}</div>
                         {% endfor %}
-                </ul>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button href="{% url 'auth_app:user_login' %}" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button href="{% url 'auth_app:user_login' %}" class="btn" data-dismiss="modal">Close</button>
             </div>
 
         </div>
