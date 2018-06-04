@@ -122,6 +122,10 @@ def request_device(request):
                     messages.error(request, 'One or more of the Pods you requested is already in use.')
                     return HttpResponseRedirect(request.path)
 
+            messages.success(
+                request, 'Pod request successful.')
+            return HttpResponseRedirect(request.path)
+
         else:       
             # Do something for anonymous users.
             return HttpResponse("You're not logged in! Please login to continue.")
@@ -156,7 +160,11 @@ def return_device(request):
                 serialnum = RequestHistory.objects.filter(id=request_history_id).values(
                     'serialnumber_id')  # Get the serialnumber from History table
                 Device.objects.filter(serialnumber=serialnum).update(available=True) #Make device available by setting Device.available to True
-    
+
+            messages.success(
+                    request, 'Returned Pod(s) successfully.')
+            return HttpResponseRedirect(request.path)
+
         else:
             # Do something for anonymous users.
             return HttpResponse("You're not logged in! Please login to continue.")

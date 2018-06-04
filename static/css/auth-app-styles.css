@@ -77,3 +77,9 @@ body {
   color: #ccc;
 }
 /*# sourceMappingURL=main.css.map */
+
+#myModal ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
