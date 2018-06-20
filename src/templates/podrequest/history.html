@@ -1,0 +1,55 @@
+{% extends 'podrequest/base.html' %} {% block body_block %}
+
+{% include 'podrequest/feedback.html' %}
+
+<h1 class="jumbotron">Request History</h1>
+<form method="post" action="{% url 'podrequest:return_device' %}">
+    {% csrf_token %}
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Date requested</th>
+                <th>Time Requested</th>
+                <th>Model</th>
+                <th>Pod number</th>
+                <th>Serialnumber</th>
+                <th>Date returned</th>
+                <th>Time returned</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for history in requesthistory_list %} {% if user.is_authenticated %}
+            <!--Only display Pods this user requested-->
+            {% if history.username_id == user.id %}
+            <tr>
+                <td>{{history.date_requested}}</td>
+                <td>{{history.time_requested}}</td>
+                {% for device in pod_details %}
+                <!--Display the pod number and model of the requested pod-->
+                <!--Pod_details contains pods requested by different users, so the second part of the 'if' condition is necessary-->
+                {% if history.serialnumber_id == device.serialnumber and device.user_id == history.username_id %}
+                <td>{{ device.device_model }}</td>
+                <td>{{ device.podnumber }}</td>
+                {% endif %} {% endfor %}
+                <td>{{history.serialnumber_id}}</td>
+                <td>{{history.date_returned}}</td>
+                <td>{{history.time_returned}}</td>
+                <td>
+                    {% if not history.date_returned %}
+                    <input type="checkbox" name='request_history_object' value={{history.id}} /> {% else %}
+                    <span>Returned</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %} {% endif %} {% endfor %}
+        </tbody>
+    </table>
+    <p class="col-sm-4 mx-auto">
+        <input type="submit" class="btn btn-success col-sm-5" value="Return" name="" />
+        <input type="reset" class="btn btn-default col-sm-5 float-right" value="Clear" name="" />
+    </p>
+    {% include 'podrequest/paginator.html' %}
+</form>
+{% endblock %}

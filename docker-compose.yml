@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      - PGDATA=/pg
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=inventorydb
+  web:
+    build: .
+    container_name: django_web
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn lab_inventory.wsgi -b 0.0.0.0:8000"
+    depends_on: 
+      - db
+    volumes:
+      - ./src:/src
+      - /static:/static
+    expose:
+      - "8000"
+    depends_on:
+      - db
+  nginx:
+    image: nginx:latest
+    container_name: nginx_server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+      - ./config/nginx:/etc/nginx/conf.d
+      - /static:/static
+    depends_on:
+      - web    
