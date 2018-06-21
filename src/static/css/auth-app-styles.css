@@ -35,7 +35,7 @@ body {
       text-align: center;
       /*Align text in center of div header*/
       color: #eee;
-      font-family: "Passion One", cursive;
+      font-family: 'Didact Gothic', sans-serif;
       font-size: 28pt; }
   #auth_form ::-moz-placeholder, #auth_form :-ms-input-placeholder, #auth_form :-moz-placeholder, #auth_form ::-webkit-input-placeholder {
     /* Mozilla Firefox 19+ */
