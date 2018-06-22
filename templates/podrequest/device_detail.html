@@ -14,8 +14,16 @@
     <p>
         <b>X1 IP</b>: {{device_detail.x1_ip}}</p>
     <p>
+        <b>X1 Gateway</b>: {{device_detail.x1_gateway}}</p>
+    <p>
+        <b>X1 Subnet</b>: {{device_detail.x1_subnetmask}}</p>
+    <p>        
         <b>X3 IP</b>: {{device_detail.x3_ip}}</p>
     <p>
+        <b>X3 Gateway</b>: {{device_detail.x3_gateway}}</p>
+    <p>
+        <b>X3 Subnet</b>: {{device_detail.x3_subnetmask}}</p>
+    <p>        
         <b>RDP IP</b>: {{device_detail.pod_rdpip}}</p>
 </div>
 <form method="post" action="{% url 'podrequest:request_device' %}">
