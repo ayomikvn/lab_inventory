@@ -10,17 +10,27 @@
     <p>
         <b>Type</b>: {{device_detail.device_type | title}}</p>
     <p>
-        <b>Firmware</b>: {{device_detail.firmware}}</p>
-    <p>
         <b>X1 IP</b>: {{device_detail.x1_ip}}</p>
     <p>
+        <b>X1 Subnet mask</b>: {{device_detail.x1_subnetmask}}
+    </p>
+    <p>
+        <b>X1 Gateway</b>: {{device_detail.x1_gateway}}</p>   
+    <p>
         <b>X3 IP</b>: {{device_detail.x3_ip}}</p>
+    <p>
+        <b>X3 Subnet mask</b>: {{device_detail.x3_subnetmask}}
+    </p>
+    <p>
+        <b>X3 Gateway</b>: {{device_detail.x3_gateway}}</p>
+    <p>
+        <b>X3 Gateway</b>: {{device_detail.x3_gateway}}</p>
     <p>
         <b>RDP IP</b>: {{device_detail.pod_rdpip}}</p>
 </div>
 <form method="post" action="{% url 'podrequest:request_device' %}">
     {% csrf_token %}
-    <input type="hidden" value="{{device_detail.serialnumber}}" name='serialnumber'/>
+    <input type="hidden" value="{{device_detail.serialnumber}}" name='serialnumber' />
     <input type="submit" class="btn btn-success" value="Request" name="" />
     <a href="{% url 'podrequest:device_list' %}" class="btn btn-primary float-right">Return to devices</a>
 </form>
