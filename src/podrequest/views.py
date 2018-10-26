@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 #Authentication requirements
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 #Time utilities
@@ -57,6 +57,22 @@ class DeviceDetailView(DetailView):
     model = Device
     template = 'podrequest/device_detail.html'
     context_object_name = 'device_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super(DeviceDetailView, self).get_context_data(**kwargs)
+
+        #Get devices that have not been returned from the RequestHistory table
+        history_details_query_set = RequestHistory.objects.filter(date_returned=None).values('id','serialnumber_id')
+        #List to store each row of data from the above queryset
+        history_details=[]
+        #for each itme in the query set, add it to the previous list
+        for history in history_details_query_set:
+            history_details.append(history)
+
+        #Inject history_details into the View    
+        context['history_details'] = history_details
+    
+        return context        
 
 
 class HistoryListView(ListView):
@@ -110,7 +126,7 @@ def request_device(request):
 
         current_user = request.user
 
-        if current_user.is_authenticated():
+        if current_user.is_authenticated:
             # Do something for authenticated users.
             time_now = datetime.datetime.now().strftime('%H:%M:%S')  # Time like '23:12:05'
             date_now = datetime.datetime.now().strftime('%Y-%m-%d')  # Date like '2018/29/05'
@@ -138,7 +154,6 @@ def request_device(request):
     return HttpResponseRedirect(reverse('podrequest:device_list'))
 
 
-
 #This method updates the availablity of a firewall in Device table and the datetime in the RequestHistory table
 def return_device(request):
     if request.method == "POST":
@@ -152,19 +167,19 @@ def return_device(request):
 
         current_user = request.user
 
-        if current_user.is_authenticated():
+        if current_user.is_authenticated:
             # Do something for authenticated users.
             time_now = datetime.datetime.now().strftime('%H:%M:%S')  # Time like '23:12:05'
             date_now = datetime.datetime.now().strftime(
                 '%Y-%m-%d')  # Date like '2018/29/05'
-   
+
             #Set the availablity of each serialnumber to False, that is, device is in use
             for request_history_id in request_history_id_list:
-                RequestHistory.objects.filter(id=request_history_id).update(
-                    date_returned=date_now, time_returned=time_now)
-                serialnum = RequestHistory.objects.filter(id=request_history_id).values(
-                    'serialnumber_id')  # Get the serialnumber from History table
+                RequestHistory.objects.filter(id=request_history_id).update(date_returned=date_now, time_returned=time_now)
+                serialnum = RequestHistory.objects.filter(id=request_history_id).values('serialnumber_id')  # Get the serialnumber queryset as a list from History table
+                serialnum=serialnum[0]['serialnumber_id'] #Retrieve the serialnumber from position 0 of array and call it as a key-value pair
                 Device.objects.filter(serialnumber=serialnum).update(available=True) #Make device available by setting Device.available to True
+                
 
             messages.success(
                     request, 'Returned Pod(s) successfully.')

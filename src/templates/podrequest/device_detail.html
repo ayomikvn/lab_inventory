@@ -26,10 +26,24 @@
     <p>        
         <b>RDP IP</b>: {{device_detail.pod_rdpip}}</p>
 </div>
+
+{% if device_detail.available %}
 <form method="post" action="{% url 'podrequest:request_device' %}">
     {% csrf_token %}
     <input type="hidden" value="{{device_detail.serialnumber}}" name='serialnumber'/>
-    <input type="submit" class="btn btn-success" value="Request" name="" />
-    <a href="{% url 'podrequest:device_list' %}" class="btn btn-primary float-right">Return to devices</a>
+    <input type="submit" class="btn btn-success" value="Request Device" name="" />
+    <a href="{% url 'podrequest:device_list' %}" class="btn btn-secondary float-right">Go back to Devices</a>
 </form>
+{% else %}
+{% for history_info in history_details %}<!--Cycle through the list of items that have not been returned and see if any matches with the current device-->
+{% if history_info.serialnumber_id == device_detail.serialnumber%}
+<form method="post" action="{% url 'podrequest:return_device' %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{history_info.id}}" name='serialnumber' />
+    <input type="submit" class="btn btn-primary" value="Return Device" name="" />
+    <a href="{% url 'podrequest:device_list' %}" class="btn btn-secondary float-right">Go back to Devices</a>
+</form>
+{% endif %}
+{% endfor %}
+{% endif %}
 {% endblock %}

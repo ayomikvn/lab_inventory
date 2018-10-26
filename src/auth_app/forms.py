@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 #from auth_app.models import Engineer
+from django.contrib.auth.forms import PasswordChangeForm
 
 #Form based on Engineer model
 class RegistrationForm(forms.ModelForm):
@@ -38,3 +39,14 @@ class RegistrationForm(forms.ModelForm):
         #Validate user's password
         if password != verify_password:
             raise forms.ValidationError("Passwords don't match")    
+
+#Style the password change form
+class PasswordChangeCustomForm(PasswordChangeForm):
+    def __init__(self, user, *args, **kwargs):
+        super(PasswordChangeCustomForm, self).__init__(user, *args, **kwargs)
+        self.fields['old_password'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Current Password'})
+        self.fields['new_password1'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'New Password'})
+        self.fields['new_password2'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Confirm New Password'})

@@ -1,13 +1,16 @@
 from django.shortcuts import render
 from auth_app.forms import RegistrationForm
+from auth_app.forms import PasswordChangeCustomForm
 from django.http import JsonResponse #JSON response
+# This function takes the current request and the updated user object from which the new session hash will be derived and updates the session hash appropriately. (Changes password hash)
+from django.contrib.auth import update_session_auth_hash
 
 #Authentication requirements
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 
 # Create your views here.
 def register(request):
@@ -67,3 +70,24 @@ def user_login(request):
 
     else:
         return render(request, 'auth_app/login.html', {})
+
+
+@login_required  # You need to be logged in to be able to change your password
+def change_password(request):
+    if request.method == 'POST':
+        user_form = PasswordChangeCustomForm(request.user, data=request.POST)
+        
+        if user_form.is_valid():
+            user_form.save()
+            update_session_auth_hash(request, user_form.user)
+            messages.success(
+                request, 'Your password was successfully updated!')
+            return HttpResponseRedirect('auth_app:change_password')
+
+        else:
+            messages.error (request,'Password change failed!')   
+
+    else:
+        user_form = PasswordChangeCustomForm(request.user)
+
+    return render(request, 'podrequest/account_settings.html', {'user_form':user_form})

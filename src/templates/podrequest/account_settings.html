@@ -1,0 +1,21 @@
+{% extends 'podrequest/base.html' %}
+{% block body_block %}
+    <h1 class="jumbotron">Change password</h1>
+<div class="mx-auto col-md-7"> 
+<form method="post" action="{% url 'auth_app:change_password' %}" id="change_password">
+    {%csrf_token %}
+    <!--Begin Form-->
+    {% for field in user_form %}
+    <div class="form-group">
+        <span class="col-xs-12">
+            {{ field.errors }} {{ field }}
+        </span>
+    </div>
+    {% endfor %}
+    <div class="">
+        <input type="submit" class="btn btn-primary float-left col-md-5" value="Change Password">
+        <a href="{% url 'podrequest:device_list' %}" class="btn btn-secondary float-right col-md-5">Cancel</a>
+    </div>
+</form>
+</div>
+{% endblock %}
