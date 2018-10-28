@@ -75,19 +75,18 @@ def user_login(request):
 @login_required  # You need to be logged in to be able to change your password
 def change_password(request):
     if request.method == 'POST':
-        user_form = PasswordChangeCustomForm(request.user, data=request.POST)
+        password_change_form = PasswordChangeCustomForm(request.user, data=request.POST)
         
-        if user_form.is_valid():
-            user_form.save()
-            update_session_auth_hash(request, user_form.user)
+        if password_change_form.is_valid():
+            password_change_form.save()
+            update_session_auth_hash(request, password_change_form.user)
             messages.success(
                 request, 'Your password was successfully updated!')
-            return HttpResponseRedirect('auth_app:change_password')
 
         else:
-            messages.error (request,'Password change failed!')   
+            messages.error(request, 'Password change failed!')
 
     else:
-        user_form = PasswordChangeCustomForm(request.user)
+        password_change_form = PasswordChangeCustomForm(request.user)
 
-    return render(request, 'podrequest/account_settings.html', {'user_form':user_form})
+    return render(request, 'podrequest/account_settings.html', {'user_form': password_change_form})
