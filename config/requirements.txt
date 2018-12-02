@@ -1,4 +1,4 @@
-Django==1.11.3
+Django==2.1.2
 argon2-cffi==18.1.0
 bcrypt==3.1.4
 cffi==1.11.5
