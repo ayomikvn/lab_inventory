@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://github.com/FortAwesome/Font-Awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+
+</head>
+
+<body class="container-fluid">
+    <div class="container">
+        {% block body_block %}
+        <!--Anything outside of this will be inherited if you extend-->
+        {% endblock %}
+    </div>
+
+</body>
+
+</html>
