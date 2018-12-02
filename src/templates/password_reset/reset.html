@@ -1,13 +1,16 @@
 {% extends 'password_reset/base.html' %} {% block body_block %}
 <h1 class="jumbotron">Pod Request Tracker</h1>
+<div class="col-sm-6 mx-auto">
 <h2>Set new password</h2>
 <form method="POST">
     {% csrf_token %}
+
     {{ form.as_p }}
     
     <div class="form-info">
-        <input type="submit" class="btn btn-info" value="Reset Password">
-        <a href="{% url 'auth_app:user_login' %}" class="btn btn-light" role="button">Cancel</a>
+        <input type="submit" class="btn btn-info col-md-5 float-left" value="Reset Password">
+        <a href="{% url 'auth_app:user_login' %}" class="btn btn-light col-md-5 float-right" role="button">Cancel</a>
     </div>
 </form>
+</div>
 {% endblock %}

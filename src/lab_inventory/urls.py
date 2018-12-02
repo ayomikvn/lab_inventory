@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #Must specify which "views" is used to logout
     url(r'^logout/$', auth_app.views.user_logout, name='logout'),
+    url(r'', include('password_reset.urls')),
 ]

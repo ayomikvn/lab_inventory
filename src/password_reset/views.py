@@ -20,8 +20,8 @@ from .signals import user_recovers_password
 
 
 class SaltMixin(object):
-    salt = 'password_recovery'
-    url_salt = 'password_recovery_url'
+    salt = 'password_reset:password_recovery'
+    url_salt = 'password_reset:password_recovery_url'
 
 
 def loads_with_timestamp(value, salt):
@@ -56,7 +56,7 @@ class Recover(SaltMixin, generic.FormView):
     case_sensitive = True
     form_class = PasswordRecoveryForm
     template_name = 'password_reset/recovery_form.html'
-    success_url_name = 'password_reset_sent'
+    success_url_name = 'password_reset:password_reset_sent'
     email_template_name = 'password_reset/recovery_email.txt'
     email_subject_template_name = 'password_reset/recovery_email_subject.txt'
     search_fields = ['username', 'email']
@@ -117,7 +117,7 @@ class Reset(SaltMixin, generic.FormView):
     form_class = PasswordResetForm
     token_expires = None
     template_name = 'password_reset/reset.html'
-    success_url = reverse_lazy('password_reset_done')
+    success_url = reverse_lazy('password_reset:password_reset_done')
 
     def get_token_expires(self):
         duration = getattr(settings, 'PASSWORD_RESET_TOKEN_EXPIRES',

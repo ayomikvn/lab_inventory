@@ -27,8 +27,11 @@
                 <p class="col-xs-6">
                     <button type="submit" class="btn btn-block" id="submit">Login</button>
                 </p>
-                <p class="col-xs-6 form-info mx-auto">Don't have an account?
+                <p class="col-xs-6 form-info text-center">Don't have an account?
                     <a class="" href="{% url 'auth_app:register' %}">Register here</a>
+                </p>
+                <p class="col-xs-6 form-info text-center">
+                    <a class="" href="{% url 'password_reset:password_reset_recover' %}">Forgot password</a>
                 </p>
             </div>
         </form>

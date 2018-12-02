@@ -9,7 +9,7 @@ class RegistrationForm(forms.ModelForm):
     # Makes the user's password invisible or masked (thatis, *****)
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder':'Password'}))
-    verify_password = forms.CharField(label='Confirm password', widget=forms.PasswordInput(
+    verify_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
 
     class Meta():
